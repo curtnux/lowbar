@@ -65,4 +65,19 @@ describe('_', function () {
       expect(spy.calledWith(list[i], i)).to.equal(true)
     }) */
   })
+  describe('#indexOf', function () {
+    it('is a function', function () {
+      expect(_.indexOf).to.be.a('function');
+    });
+    it('returns -1 when a value is not passed', function () {
+      expect(_.indexOf([1, 2, 3])).to.equal(-1);
+    });
+    it('returns -1 when a value is not present in the array', function () {
+      expect(_.indexOf([1, 2, 3], 4)).to.equal(-1);
+    });
+    it('returns the index at which a value can be found in an array', function () {
+      expect(_.indexOf([1, 2, 3], 2)).to.equal(1);
+      expect(_.indexOf([32, 1, 45, 7], 7)).to.equal(3);      
+    });
+  });
 });

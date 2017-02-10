@@ -49,6 +49,20 @@ _.each = function(list, iteratee)  {
   return list;
 }
 
+_.indexOf = function(array, value) {
+  for (var i = 0; i < array.length; i++) {  
+    if (array[i] === value) {
+      return i;
+    } 
+  }
+    if (arguments.length === 1) {
+    return -1;
+  }
+    return -1;
+}
+
+
+
 if (typeof module !== 'undefined') {
   module.exports = _;
 }
