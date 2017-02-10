@@ -77,6 +77,26 @@ _.filter = function(list, func) {
   return filtered;
 }
 
+_.reject = function(list, func) {
+  
+  var rejected = [];
+
+  if(Array.isArray(list)) {
+  for(var i = 0; i < list.length; i++) {
+    if (!func(list[i])) {
+      rejected.push(list[i]);
+     }
+   }
+  } else {
+    for(var key in list) {
+      if (!func(list[key])) {
+        rejected.push(list[key]);
+    }
+  }
+}
+  return rejected;
+}
+
 
 if (typeof module !== 'undefined') {
   module.exports = _;

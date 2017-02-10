@@ -89,4 +89,21 @@ describe('_', function () {
       expect(_.filter({a:1, b:2, c:3, d:4, e:5}, function(num){ return num <= 3; })).to.eql([1, 2, 3]);
     });
   });
+  describe("#reject", function () {
+    it('is a function', function () {
+      expect(_.reject).to.be.a('function');
+    });
+    it('returns an array', function () {
+      expect(_.reject()).to.be.a('array')
+    });
+    it('returns an array of elements that do not pass the predicate', function () {
+      var spy = sinon.spy();
+      _.reject([1,2,3], spy);
+      expect(spy.calledWith()).to.equal(true);
+      expect(spy.firstCall.args[0]).to.equal(1);
+    });
+    it('returns an array of rejected values when passed a function', function () {
+      expect(_.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; })).to.eql([1, 3, 5]);
+    });
+  })
 });
