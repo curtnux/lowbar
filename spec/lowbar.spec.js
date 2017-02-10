@@ -80,4 +80,13 @@ describe('_', function () {
       expect(_.indexOf([32, 1, 45, 7], 7)).to.equal(3);      
     });
   });
+  describe('#filter', function () {
+    it('is a function', function () {
+      expect(_.filter).to.be.a('function');
+    });
+    it('returns a filtered array of values that pass a predicate', function () {
+      expect(_.filter([1, 2, 3, 4, 5, 6], function(num){ return num < 3; })).to.eql([1, 2]);
+      expect(_.filter({a:1, b:2, c:3, d:4, e:5}, function(num){ return num <= 3; })).to.eql([1, 2, 3]);
+    });
+  });
 });

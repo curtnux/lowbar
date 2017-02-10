@@ -61,8 +61,30 @@ _.indexOf = function(array, value) {
     return -1;
 }
 
+_.filter = function(list, func) {
+  // loop through each value in list
+    // apply function to determine true || false
+      // if true push to new array
+  var filtered = [];    
+
+  if(Array.isArray(list)) {
+  for(var i = 0; i < list.length; i++) {
+    if (func(list[i])) {
+      filtered.push(list[i]);
+     }
+   }
+  } else {
+    for(var key in list) {
+      if (func(list[key])) {
+        filtered.push(list[key]);
+    }
+  }
+}
+  return filtered;
+}
 
 
 if (typeof module !== 'undefined') {
   module.exports = _;
 }
+
