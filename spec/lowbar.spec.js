@@ -59,11 +59,11 @@ describe('_', function () {
       var b = _.each(a, function(){});
       expect(b).to.equal(a);
     });
-/*    it('function calls with all arguments provided', function ()  {
+    it('function calls with all arguments provided', function ()  {
       var spy = sinon.spy();
-      var output = _.each([1,2,3], spy);
-      expect(spy.calledWith(list[i], i)).to.equal(true)
-    }) */
+      _.each([1,2,3], spy);
+      expect(spy.calledWith()).to.equal(true)
+    }); 
   })
   describe('#indexOf', function () {
     it('is a function', function () {

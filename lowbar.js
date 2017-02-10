@@ -30,12 +30,6 @@ _.last = function(array, n)  {
 };
 
 _.each = function(list, iteratee)  {
-  // IF array
-  // loop through array
-  // for each iteratee - console.log
-  // else 
-  //  array.forEach(function(element)  {
-    //  iteratee(element)});
     if(Array.isArray(list)) {
     for (var i = 0; i < list.length; i++) {
       iteratee(list[i], i, list);
