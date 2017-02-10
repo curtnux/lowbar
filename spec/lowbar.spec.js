@@ -53,6 +53,16 @@ describe('_', function () {
       var spy = sinon.spy();
       var output = _.each({a:1, b:2, c:3}, spy);
       expect(spy.callCount).to.eql(3)
-    })
+    });
+    it('returns the list passed', function ()  {
+      var a = [1,2,3,4];
+      var b = _.each(a, function(){});
+      expect(b).to.equal(a);
+    });
+/*    it('function calls with all arguments provided', function ()  {
+      var spy = sinon.spy();
+      var output = _.each([1,2,3], spy);
+      expect(spy.calledWith(list[i], i)).to.equal(true)
+    }) */
   })
 });
