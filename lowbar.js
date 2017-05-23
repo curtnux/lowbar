@@ -5,8 +5,8 @@ _.identity = function(value) {
 };
 
 _.first = function(array, n) {
-  var result = [];
-  var i = 0;
+  let result = [];
+  let i = 0;
   if (arguments.length === 1) {
     return array[0];
   } while (i < n) {
@@ -20,8 +20,6 @@ _.last = function(array, n)  {
     var reverse = array.reverse();
     return reverse[0];
 };
-  // loop through array from n
-  // push values into new array
   var result = [];
   for(var i = n-1; i < array.length; i++) {
     result.push(array[i])
@@ -34,7 +32,7 @@ _.each = function(list, iteratee)  {
     for (var i = 0; i < list.length; i++) {
       iteratee(list[i], i, list);
     }
-  }
+  } 
   else {
     for(var key in list) {
       iteratee(list[key], key, list);
@@ -44,7 +42,7 @@ _.each = function(list, iteratee)  {
 }
 
 _.indexOf = function(array, value) {
-  for (var i = 0; i < array.length; i++) {  
+  for (let i = 0; i < array.length; i++) {  
     if (array[i] === value) {
       return i;
     } 
@@ -56,11 +54,7 @@ _.indexOf = function(array, value) {
 }
 
 _.filter = function(list, func) {
-  // loop through each value in list
-    // apply function to determine true || false
-      // if true push to new array
   var filtered = [];    
-
   if(Array.isArray(list)) {
   for(var i = 0; i < list.length; i++) {
     if (func(list[i])) {
@@ -81,14 +75,14 @@ _.reject = function(list, func) {
   
   var rejected = [];
 
-  if(Array.isArray(list)) {
-  for(var i = 0; i < list.length; i++) {
+  if (Array.isArray(list)) {
+  for (var i = 0; i < list.length; i++) {
     if (!func(list[i])) {
       rejected.push(list[i]);
      }
    }
   } else {
-    for(var key in list) {
+    for (var key in list) {
       if (!func(list[key])) {
         rejected.push(list[key]);
     }
@@ -96,6 +90,129 @@ _.reject = function(list, func) {
 }
   return rejected;
 }
+
+_.uniq = function (array) {
+  let uniqueArray = [];
+
+  if (arguments.length < 1) return array;
+
+  for (var i = 0; i < array.length; i++) {
+    if (!uniqueArray.includes(array[i])) {     
+      uniqueArray.push(array[i]);
+    };
+  }
+  return uniqueArray;
+};
+
+_.map = function (list, iteratee) {
+  let getMap = [];
+
+  if (arguments.length < 1) return list;
+
+  if (Array.isArray(list)) {
+    for(var i = 0; i < list[i]; i++) {
+      let newValue = iteratee(list[i], i, list);
+      getMap.push (newValue);
+    }
+  }
+  else {
+    for (var key in list) {
+      let newValue = iteratee(list[key], key, list);
+      getMap.push(newValue);
+    }
+  }
+  return getMap;
+};
+
+_.pluck = function (list, propertyName) {
+  let newMap = [];
+
+  if (arguments.length < 1) return list;
+
+  for (var i = 0; i < list.length; i++) {
+        newMap.push(list[i][propertyName])
+    }
+  return newMap;
+};
+
+_.reduce = function (list, iteratee) {
+  
+  let result;
+
+  if (!arguments) return list;
+TODO: // include index, list, etc into function callback see reduce notes & add further tests to include objects/arrays
+  _.each (list, function (value) {
+    if (result === undefined) {
+      result = value;
+    } else {
+      result = iteratee(result, value);
+    }
+  });
+  return result;
+};
+
+_.contains = function (list, value, fromIndex) {
+
+  let bool;
+
+  if (arguments.length < 1) return list;
+
+  for (let i = fromIndex || 0; i < list.length; i++) {
+    if (list[i] === value) bool = true;
+     else bool = false;
+  };
+
+  return bool;
+};
+
+_.every = function (list, predicate) {
+
+  if (arguments.length < 1) return list;
+
+  for (let i = 0; i < list.length; i++) {
+    if (!predicate(list[i])) {
+      return false;
+    }
+  }
+  return true;
+};
+
+_.some = function (list, predicate) {
+  
+  if (arguments.length < 1) return list;
+  TODO: //include object.values to turn objects to lists 
+  for (let i = 0; i < list.length; i++) {
+    if (predicate(list[i])) {
+      return true;
+    }
+  }
+  return false;
+};
+
+_.extend = function (destination, sources) {
+
+  if(!sources) return destination;
+  TODO: // consider alternative to object assign
+  return Object.assign({}, destination, sources)
+};
+
+_.defaults = function (object, defaults) {
+
+  if (!defaults) return object;
+  
+  _.each(defaults, function (value, key) {
+    if(object[key] === undefined)
+      object[key] = value
+  })
+  return object;
+}
+
+
+
+
+
+
+
 
 
 if (typeof module !== 'undefined') {
