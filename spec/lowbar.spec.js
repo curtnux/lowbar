@@ -1,8 +1,8 @@
-var path = require('path');
-var expect = require('chai').expect;
-var sinon = require('sinon')
+let path = require('path');
+let expect = require('chai').expect;
+let sinon = require('sinon')
 
-var _ = require(path.join(__dirname, '..', './lowbar.js'));
+let _ = require(path.join(__dirname, '..', './lowbar.js'));
 
 describe('_', function () {
   'use strict';
@@ -50,22 +50,22 @@ describe('_', function () {
       expect(_.each).to.be.a('function');
     });
     it('passes each element of a list into a function', function ()  {
-      var spy = sinon.spy();
-      var output = _.each([1,2,3,4,5], spy);
+      let spy = sinon.spy();
+      let output = _.each([1,2,3,4,5], spy);
       expect(spy.callCount).to.eql(5)
     });
     it('passes each element of an object into a function', function ()  {
-      var spy = sinon.spy();
-      var output = _.each({a:1, b:2, c:3}, spy);
+      let spy = sinon.spy();
+      let output = _.each({a:1, b:2, c:3}, spy);
       expect(spy.callCount).to.eql(3)
     });
     it('returns the list passed', function ()  {
-      var a = [1,2,3,4];
-      var b = _.each(a, function(){});
+      let a = [1,2,3,4];
+      let b = _.each(a, function(){});
       expect(b).to.equal(a);
     });
     it('function calls with all arguments provided', function ()  {
-      var spy = sinon.spy();
+      let spy = sinon.spy();
       _.each([1,2,3], spy);
       expect(spy.calledWith()).to.equal(true)
     }); 
@@ -83,7 +83,7 @@ describe('_', function () {
     });
     it('returns the index at which a value can be found in an array', function () {
       expect(_.indexOf([1, 2, 3], 2)).to.equal(1);
-      expect(_.indexOf([32, 1, 45, 7], 7)).to.equal(3);      
+      expect(_.indexOf([2, 4, 5, 7, 3], 7)).to.equal(3);      
     });
   });
 
@@ -105,7 +105,7 @@ describe('_', function () {
       expect(_.reject()).to.be.a('array')
     });
     it('returns an array of elements that do not pass the predicate', function () {
-      var spy = sinon.spy();
+      let spy = sinon.spy();
       _.reject([1,2,3], spy);
       expect(spy.calledWith()).to.equal(true);
       expect(spy.firstCall.args[0]).to.equal(1);
@@ -269,15 +269,181 @@ describe('_', function () {
       expect(_.defaults).to.be.a('function');
     });
     it('returns an object', () => {
-      var iceCream = {flavor: "chocolate"};
+      let iceCream = {flavor: "chocolate"};
       let input = _.defaults(iceCream, {flavor: "vanilla", sprinkles: "lots"});
       expect(input).to.be.an('object');
     });
     it('returns an object with added prop/val', () => {
-      var iceCream = {flavor: "chocolate"};
+      let iceCream = {flavor: "chocolate"};
       let input = _.defaults(iceCream, {flavor: "vanilla", sprinkles: "lots"});
       expect(input).to.eql({flavor: "chocolate", sprinkles: "lots"});
     });
   });
+
+describe('#indexOf', () => {
+        it('is a function', () => {
+            expect(_.indexOf).to.be.a('function');
+        });
+        it('returns an integer', () => {
+            expect(_.indexOf([1,2,3],1)).to.be.a('number');
+        });
+        it('returns -1 if no value is found within the searched array', () => {
+            expect(_.indexOf([1,2,3],4)).to.equal(-1);
+        });
+        it('returns -1 if no array is passed into the function', () => {
+            expect(_.indexOf(1)).to.equal(-1);
+        });
+        it('returns -1 if no value is passed into the function', () => {
+            expect(_.indexOf([1,2,3])).to.equal(-1);
+        });
+        it('returns the index number using binary search', () => {
+            expect(_.indexOf([1,2,3,4],2)).to.equal(1);
+        //FIXME:expect(_.indexOf([1,4,6,8,3,9],8)).to.equal(3);
+        });
+    });
+
+    describe('#once', () => {
+        it('is a function', () => {
+            expect(_.once).to.be.a('function');
+        });
+        it('returns the called function', () => {
+            let spy = sinon.spy();
+            let fn = _.once(spy);
+            fn();
+            expect(spy.called).to.equal(true);
+        });
+        it('calls the function only once', () => {
+            let spy = sinon.spy();
+            let fn = _.once(spy);
+            fn();
+            fn();
+            fn();
+            expect(spy.callCount).to.equal(1);
+        });
+    });
+
+    describe('#memoize', () => {
+        it('is a function', () => {
+            expect(_.memoize).to.be.a('function');
+        });
+        it('returns a memoized function', () => {
+            let spy = sinon.spy();
+            let memo = _.memoize(spy);
+            memo();
+            expect(spy.called).to.equal(true);
+        });
+        it('holds a cached value', () => {
+            let fun = () => { return 3 * 2;};
+            let memo = _.memoize(fun);
+            memo(1);
+            let actual = memo.cache;
+
+            expect(actual).to.eql({1:6});
+        });
+    });
+
+    describe('#delay', () => {
+        it('is a function', () => {
+            expect(_.delay).to.be.a('function');
+        });
+        it('returns a called function after a specified amount of time', (done) => {
+            let spy = sinon.spy();
+            _.delay(spy, 80);
+            expect(spy.calledOnce).to.equal(false);
+
+            setTimeout(() => {
+                expect(spy.calledOnce).to.equal(true);
+                done();
+            }, 100);
+        });
+    });
+
+    describe('#shuffle', () => {
+        it('is a function', () => {
+            expect(_.shuffle).to.be.a('function');
+        });
+        it('returns an array', () => {
+            let input = _.shuffle([1,2,3,4,5]);
+            expect(input).to.be.an('array');
+        });
+        it('returns a shuffled array', () => {
+            let input = _.shuffle([1,2,3,4,5]);
+            expect(input).to.not.equal([1,2,3,4,5]);
+        });
+        it('returns a shuffled array of objects', () => {
+            let input = _.shuffle([{1:1}, {2:2}, {3:3}]);
+            let output = [{1:1}, {2:2}, {3:3}];
+            expect(input).to.not.equal(output);
+        });
+    });
+
+    describe('#invoke', () => {
+        it('is a function', () => {
+            expect(_.invoke).to.be.a('function');
+        });
+        it('returns an array', () => {
+            let list = [[5,1,7],[3,2,1]];
+            let input = _.invoke(list, 'sort');
+            expect(input).to.be.an('array');
+        });
+        it('calls a method on a list', () => {
+            let list = [[5,1,7],[3,2,1]];
+            let input = _.invoke(list, 'sort');
+            let output = [[1,5,7],[1,2,3]];
+            expect(input).to.eql(output);
+        });
+        it('returns undefined if there isnt a usable method', () => {
+            let list = [[5,1,7],[3,2,1]];
+            let input = _.invoke(list, 'noMethod');
+            expect(input).to.eql([undefined, undefined]);
+            expect(input).to.be.an('array');
+        });
+    });
+
+    describe('#sortBy', () => {
+        it('is a function', () => {
+            expect(_.sortBy).to.be.a('function');
+        });
+        it('returns a sort list by its iteratee function', () => {
+            let input = _.sortBy([1, 2, 3, 4, 5, 6], function (num) { return Math.sin(num); });
+            let output = [5, 4, 6, 3, 1, 2];
+            expect(input).to.eql(output);
+        });
+    });
+
+    describe('#zip', () => {
+        it('is a function', () => {
+            expect(_.zip).to.be.a('function');
+        });
+        it('returns an array', () => {
+            let input = _.zip([1]);
+            expect(input).to.be.an('array');
+        });
+        it('returns a zipped array', () => {
+            let input = _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
+            let output = [['moe', 30, true], ['larry', 40, false], ['curly', 50, false]];
+            expect(input).to.eql(output);
+        });
+    });
+
+    describe('#flatten', () => {
+        it('is a function', () => {
+            expect(_.flatten).to.be.a('function');
+        });
+        it('returns an array', () => {
+            expect(_.flatten()).to.be.an('array');
+        });
+        it('returns a flattened array', () => {
+            let input = _.flatten([1,2,3,[4,5]]);
+            let expected = [1,2,3,4,5];
+            expect(input).to.eql(expected);
+            expect(expected).to.be.an('array');
+        });
+        it('handles arguments which arent an array', () => {
+            let input = _.flatten({1:1}, {1:2});
+            let expected = [];
+            expect(input).to.eql(expected);
+        });
+    });
 
 });
