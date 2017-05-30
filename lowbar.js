@@ -1,9 +1,11 @@
-var _ = {};
+let _ = {};
 
+///////////////////////////////
 _.identity = function(value) {
   return value;
 };
 
+//////////////////////////
 _.first = function(array, n) {
   let result = [];
   let i = 0;
@@ -15,32 +17,35 @@ _.first = function(array, n) {
   return result;
 };
 
-_.last = function(array, n)  {
+//////////////////////////
+_.last = function(array, n) {
   if(arguments.length === 1) {
-    var reverse = array.reverse();
+    let reverse = array.reverse();
     return reverse[0];
 };
-  var result = [];
-  for(var i = n-1; i < array.length; i++) {
+  let result = [];
+  for(let i = n-1; i < array.length; i++) {
     result.push(array[i])
   }
   return result;
 };
 
-_.each = function(list, iteratee)  {
+//////////////////////////
+_.each = function(list, iteratee) {
     if(Array.isArray(list)) {
-    for (var i = 0; i < list.length; i++) {
+    for (let i = 0; i < list.length; i++) {
       iteratee(list[i], i, list);
     }
   } 
   else {
-    for(var key in list) {
+    for(let key in list) {
       iteratee(list[key], key, list);
     }
   }
   return list;
 }
 
+//////////////////////////
 _.indexOf = function(array, value) {
   for (let i = 0; i < array.length; i++) {  
     if (array[i] === value) {
@@ -53,16 +58,17 @@ _.indexOf = function(array, value) {
     return -1;
 }
 
+//////////////////////////
 _.filter = function(list, func) {
-  var filtered = [];    
+  let filtered = [];    
   if(Array.isArray(list)) {
-  for(var i = 0; i < list.length; i++) {
+  for(let i = 0; i < list.length; i++) {
     if (func(list[i])) {
       filtered.push(list[i]);
      }
    }
   } else {
-    for(var key in list) {
+    for(let key in list) {
       if (func(list[key])) {
         filtered.push(list[key]);
     }
@@ -71,18 +77,19 @@ _.filter = function(list, func) {
   return filtered;
 }
 
+//////////////////////////
 _.reject = function(list, func) {
   
-  var rejected = [];
+  let rejected = [];
 
   if (Array.isArray(list)) {
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     if (!func(list[i])) {
       rejected.push(list[i]);
      }
    }
   } else {
-    for (var key in list) {
+    for (let key in list) {
       if (!func(list[key])) {
         rejected.push(list[key]);
     }
@@ -91,12 +98,13 @@ _.reject = function(list, func) {
   return rejected;
 }
 
-_.uniq = function (array) {
+//////////////////////////
+_.uniq = function(array) {
   let uniqueArray = [];
 
   if (arguments.length < 1) return array;
 
-  for (var i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; i++) {
     if (!uniqueArray.includes(array[i])) {     
       uniqueArray.push(array[i]);
     };
@@ -104,43 +112,46 @@ _.uniq = function (array) {
   return uniqueArray;
 };
 
-_.map = function (list, iteratee) {
-  let getMap = [];
-
-  if (arguments.length < 1) return list;
-
-  if (Array.isArray(list)) {
-    for(var i = 0; i < list[i]; i++) {
-      let newValue = iteratee(list[i], i, list);
-      getMap.push (newValue);
-    }
-  }
-  else {
-    for (var key in list) {
-      let newValue = iteratee(list[key], key, list);
-      getMap.push(newValue);
-    }
-  }
-  return getMap;
-};
-
-_.pluck = function (list, propertyName) {
+//////////////////////////
+_.map = function(list, iteratee) {
   let newMap = [];
 
   if (arguments.length < 1) return list;
 
-  for (var i = 0; i < list.length; i++) {
+  if (Array.isArray(list)) {
+    for(let i = 0; i < list[i]; i++) {
+      let newValue = iteratee(list[i], i, list);
+      newMap.push (newValue);
+    }
+  }
+  else {
+    for (let key in list) {
+      let newValue = iteratee(list[key], key, list);
+      newMap.push(newValue);
+    }
+  }
+  return newMap;
+};
+
+//////////////////////////
+_.pluck = function(list, propertyName) {
+  let newMap = [];
+
+  if (arguments.length < 1) return list;
+
+  for (let i = 0; i < list.length; i++) {
         newMap.push(list[i][propertyName])
     }
   return newMap;
 };
 
-_.reduce = function (list, iteratee) {
+//////////////////////////
+_.reduce = function(list, iteratee) {
   
   let result;
 
   if (!arguments) return list;
-TODO: // include index, list, etc into function callback see reduce notes & add further tests to include objects/arrays
+
   _.each (list, function (value) {
     if (result === undefined) {
       result = value;
@@ -151,7 +162,8 @@ TODO: // include index, list, etc into function callback see reduce notes & add 
   return result;
 };
 
-_.contains = function (list, value, fromIndex) {
+//////////////////////////
+_.contains = function(list, value, fromIndex) {
 
   let bool;
 
@@ -165,7 +177,8 @@ _.contains = function (list, value, fromIndex) {
   return bool;
 };
 
-_.every = function (list, predicate) {
+//////////////////////////
+_.every = function(list, predicate) {
 
   if (arguments.length < 1) return list;
 
@@ -177,10 +190,11 @@ _.every = function (list, predicate) {
   return true;
 };
 
-_.some = function (list, predicate) {
+//////////////////////////
+_.some = function(list, predicate) {
   
   if (arguments.length < 1) return list;
-  TODO: //include object.values to turn objects to lists 
+
   for (let i = 0; i < list.length; i++) {
     if (predicate(list[i])) {
       return true;
@@ -189,14 +203,15 @@ _.some = function (list, predicate) {
   return false;
 };
 
-_.extend = function (destination, sources) {
+//////////////////////////
+_.extend = function(destination, sources) {
 
   if(!sources) return destination;
-  TODO: // consider alternative to object assign
-  return Object.assign({}, destination, sources)
+    return Object.assign({}, destination, sources)
 };
 
-_.defaults = function (object, defaults) {
+//////////////////////////
+_.defaults = function(object, defaults) {
 
   if (!defaults) return object;
   
@@ -207,12 +222,130 @@ _.defaults = function (object, defaults) {
   return object;
 }
 
+//////////////////////////
+_.indexOf = function(array, value) {
+    
+    let min = 0; 
+    let max = array.length - 1; 
+    let mid;
 
+    if (!Array.isArray(array) || !value) return -1;
 
+    while (min <= max) {
+        mid = Math.floor((max + min) / 2);
 
+        if (array[mid] === value) return mid;
+        else if (array[mid] < value) min = mid + 1;
+        else max = mid - 1;
+    }
+    return -1;
+};
 
+//////////////////////////
+_.once = function(func) {
 
+    let returnVal, called = false;
 
+    return () => {
+        if (!called) {
+            called = true;
+            returnVal = func.apply(this, arguments);
+        }
+        return returnVal;
+    };
+};
+
+//////////////////////////
+_.memoize = function(func) {
+    
+    const cache = {};
+
+    const fn = (key) => {
+        let index = JSON.stringify(key);
+
+        if (index in cache) {
+            return cache[index];
+        } else {
+            let memo = func.apply(null, arguments);
+            cache[index] = memo;
+            return memo;
+        }
+    };
+        fn.cache = cache;
+        return fn;
+};
+
+//////////////////////////
+_.delay = function(func, wait) {
+
+    let arg = Array.prototype.slice.call(arguments, 2);
+    
+    return setTimeout(function () {
+        return func.apply(null, arg);
+    }, wait);
+};
+
+//////////////////////////
+_.shuffle = function(list) {
+
+    let count = list.length;
+
+    while (count > 0) {
+        let i = Math.floor(Math.random() * count);
+        count --;
+        let temp = list[count];
+        list[count] = list[i];
+        list[i] = temp;
+    }
+    return list;
+};
+
+//////////////////////////
+_.invoke = function(list, method) {
+    
+    let listCopy = list.slice();
+    
+    return listCopy.map(element => {
+        if (typeof(method) === 'string') {
+            method = element[method];
+        }
+        if (method === undefined) return undefined;
+        return method.apply(element);
+    });
+};
+
+//////////////////////////
+_.sortBy = function(list, iteratee) {
+    return list.sort((a, b) => {
+        return iteratee(a) - iteratee(b);
+    });
+};
+
+//////////////////////////
+_.zip = function(arrays) {
+    let result = [];
+    let list = Array.prototype.slice.call(arguments);
+   
+    for (let i = 0; i < list.length; i++) {
+        let newArray = [];
+
+        for (let j = 0; j < list.length; j++) {
+            newArray.push(list[j][i]);
+        }
+        result.push(newArray);
+    }
+    return result;
+};
+
+//////////////////////////
+_.flatten = function(array) {
+    
+    if (!Array.isArray(array)) return [];
+
+    return array.reduce((result, element) => {
+        return result.concat(element);
+    },[]);
+};
 
 
 if (typeof module !== 'undefined') {
